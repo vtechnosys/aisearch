@@ -13,9 +13,12 @@ from collections import defaultdict
 from nltk.corpus import wordnet as wn
 from sklearn.feature_extraction.text import TfidfVectorizer
 import flask
+from flask import session
+from flask_session import Session
 import pickle
 import json
 import pymysql
+import time
 
 # nltk.download('punkt')
 # nltk.download('wordnet')
@@ -27,7 +30,11 @@ db = pymysql.connect(host='localhost',user='root',password='',db='searchengine')
 
 
 app = flask.Flask(__name__)
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
+uid = 1
 #-------- MODEL GOES HERE -----------#
 
 # print(df_news)
@@ -102,37 +109,110 @@ def signin():
     password = str(flask.request.form.get("password"))
     cursor = db.cursor()
     cursor.execute("select * from tbl_user where email ='"+username+"' and password='"+password+"'")
-    records = cursor.fetchall()
+        
     if(cursor.rowcount>0):
-        return flask.redirect('/dashboard')
+        records = cursor.fetchall()
+        uid = records[0]
+        session['uid'] = uid[0]
+        session['uname'] = uid[1]
+        session['utype'] = uid[4]
+        if(uid[4] == 'admin'):
+            return flask.redirect('/dashboard')
+        else:
+            return flask.redirect('/user-dashboard')
     else:
         return "login Failed"
 
+@app.route('/user-dashboard')
+def user_dashboard():
+    uid = session['uid']
+    # print(uid)
+    cursor = db.cursor()
+    cursor.execute("select * from tbl_tickets where assign_user="+str(uid))
+    trecords = cursor.rowcount
+    cursor.execute("select * from tbl_tickets where t_status='pending' and assign_user="+str(uid))
+    precords = cursor.rowcount
+    cursor.execute("select * from tbl_tickets  where t_status='completed' and assign_user="+str(uid))
+    crecords = cursor.rowcount
+    return flask.render_template('user_dashboard.html',tcount = trecords,pcount = precords, ccount = crecords,uname=session['uname'],utype=session['utype'])
+
 @app.route('/dashboard')
 def dashboard():
-    return flask.render_template('dashboard.html')
+    cursor = db.cursor()
+    cursor.execute("select * from tbl_tickets")
+    trecords = cursor.rowcount
+    cursor.execute("select * from tbl_tickets where t_status='pending'")
+    precords = cursor.rowcount
+    cursor.execute("select * from tbl_tickets  where t_status='completed'")
+    crecords = cursor.rowcount
+    return flask.render_template('dashboard.html',tcount = trecords,pcount = precords, ccount = crecords,uname=session['uname'],utype=session['utype'])
 
 @app.route('/adduser')
 def register():
-    return flask.render_template('register.html')
+    return flask.render_template('register.html',uname=session['uname'])
 @app.route('/add-task')
 def task():
-    return flask.render_template('addtask.html')
+    cursor = db.cursor()
+    cursor.execute("select * from tbl_user where utype<>'admin'")
+    records = cursor.fetchall()
+    return flask.render_template('addtask.html',users = records,uname=session['uname'],utype=session['utype'])
+
+
 @app.route('/storetask',methods=['POST'])
 def storetask():
     qst = str(flask.request.form.get('qst'))
-    ans = str(flask.request.form.get('answer'))
+    ans = str(flask.request.form.get('usr'))
+    ptype = str(flask.request.form.get('ptype'))
     cursor = db.cursor()
-    cursor.execute("insert into tbl_task(question,answers,status) values('"+qst+"','"+ans+"','active')")
+    cursor.execute("insert into tbl_tickets(task,assign_user,t_priority,t_status,created_by) values('"+qst+"','"+ans+"','"+ptype+"','pending','1')")
     db.commit()
     return flask.redirect('/dashboard')
+
+@app.route('/my-tasks')
+def showmytask():
+    uid = session['uid']
+    cursor = db.cursor()
+    cursor.execute("select * from tbl_tickets where assign_user = "+str(uid))
+    records = cursor.fetchall()
+    return flask.render_template('mytask.html',tasks = records,uname=session['uname'],utype=session['utype'])
+
+@app.route('/show-task',methods=['GET'])
+def showlog():
+    tid = flask.request.args.get('tid')
+    cursor = db.cursor()
+    cursor.execute("select * from tbl_tickets where id = "+str(tid))
+    records = cursor.fetchall()
+    return flask.render_template('showticket.html',tasks = records,uname=session['uname'],utype=session['utype'])
+
+@app.route('/show-log',methods=['GET'])
+def showlogs():
+    tid = flask.request.args.get('tid')
+    cursor = db.cursor()
+    cursor.execute("select * from tbl_task_log where task_id = "+str(tid))
+    records = cursor.fetchall()
+    cursor.execute("select * from tbl_tickets where id = "+str(tid))
+    tasks = cursor.fetchall()
+    return flask.render_template('showlog.html',tasks = tasks,records=records,uname=session['uname'],utype=session['utype'])
+
+@app.route('/store-log',methods=['POST'])
+def storelog():
+    uid = session['uid']
+    tid = flask.request.form.get('tid')
+    res = flask.request.form.get('res')
+    status = flask.request.form.get('status')
+    cursor = db.cursor()
+    cursor.execute("insert into tbl_task_log(task_id,response,assign_user_id) values("+str(tid)+",'"+str(res)+"',"+str(uid)+")")
+    
+    cursor.execute('update tbl_tickets set t_status="'+status+'" where id='+str(tid))
+    db.commit()
+    return flask.redirect('/user-dashboard')
 
 @app.route('/view-tasks')
 def showtask():
     cursor = db.cursor()
-    cursor.execute("select * from tbl_task")
+    cursor.execute("select * from tbl_tickets as t join tbl_user as u on t.assign_user = u.id")
     records = cursor.fetchall()
-    return flask.render_template('showtask.html',tasks = records)
+    return flask.render_template('showtask.html',tasks = records,uname=session['uname'],utype=session['utype'])
 @app.route('/register', methods=['POST'])
 def adduser():
     uname = str(flask.request.form.get('username'))
@@ -151,10 +231,15 @@ def users():
     cursor = db.cursor()
     cursor.execute("select * from tbl_user")
     records = cursor.fetchall()
-    return flask.render_template('showusers.html',users = records)
+    return flask.render_template('showusers.html',users = records,uname=session['uname'],utype=session['utype'])
 @app.route('/search', methods=["GET"])
 def DrugFind():
+    start = time.time()
     query = flask.request.args.get('query')
+
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM tbl_tickets as t JOIN tbl_task_log as l on t.id = l.task_id JOIN tbl_user as u ON t.assign_user = u.id WHERE MATCH (task) AGAINST ('"+query+"' IN NATURAL LANGUAGE MODE)")
+    records = cursor.fetchall()
     preprocessed_query = preprocessed_query = re.sub(
         "\W+", " ", query.lower()).strip()
     tokens = word_tokenize(str(preprocessed_query))
@@ -203,8 +288,10 @@ def DrugFind():
     #     status=200,
     #     mimetype='application/json'
     # )
-
-    return flask.render_template('search.html',search = lsDrug)
+    end = time.time()
+    t = end-start
+    tm = "{:.2f}".format(round(t, 2))
+    return flask.render_template('search.html',records = records,tm=tm,search = lsDrug,query=query,uname=session['uname'],utype=session['utype'])
 
     # return flask.jsonify(lsDrug) 
 
@@ -213,6 +300,5 @@ if __name__ == '__main__':
     'Connects to the server'
     HOST = '127.0.0.1'
     PORT = 5000      #make sure this is an integer
-
     # export FLASK_ENV=development
-    app.run()
+    app.run(debug=True)

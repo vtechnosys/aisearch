@@ -116,8 +116,8 @@
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">John Doe</span>
-                            <small class="text-muted">Admin</small>
+                            <span class="fw-semibold d-block">{{uname}}</span>
+                            <small class="text-muted">{{utype}}</small>
                           </div>
                         </div>
                       </a>
@@ -227,20 +227,34 @@
                             <div class="card-body">
                 
                               <form class="mb-3" action="/storetask" method="POST">
-                                <div class="mb-3">
-                                  <label for="username" class="form-label">Question</label>
+                                <div class="mb-3 w-50">
+                                  <label for="username" class="form-label">Query</label>
                                   <input
                                     type="text"
                                     class="form-control"
                                     id="username"
                                     name="qst"
-                                    placeholder="Enter your username"
+                                    placeholder="Enter your Query"
                                     autofocus
                                   />
                                 </div>
-                                <div class="mb-3">
-                                  <label for="email" class="form-label">Answer</label>
-                                  <textarea class="form-control" id="email" name="answer" placeholder="Enter your answer" ></textarea>
+                                <div class="mb-3 w-50">
+                                  <label for="email" class="form-label">Select User</label>
+                                  <select class="form-control" id="usr" name = "usr">
+                                    <option>--User--</option>
+                                    {% for user in users %}
+                                      <option value="{{user[0]}}">{{user[1]}}</option>
+                                    {% endfor %}
+                                  </select>
+                                </div>
+                                <div class="mb-3 w-50">
+                                  <label for="ptype" class="form-label">Priority</label>
+                                  <!-- <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" /> -->
+                                  <select class="form-control" id="ptype" name="ptype">
+                                    <option value="high">High</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="low">Low</option>
+                                  </select>
                                 </div>            
                                 
                                 <button class="btn btn-primary d-grid w-50">Add Task</button>

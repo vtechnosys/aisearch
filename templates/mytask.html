@@ -80,20 +80,9 @@
               
               <div class="navbar-nav align-items-center">
                 <div class="nav-item d-flex align-items-center">
-                  <div class="app-brand demo">
-                    <a href="index.html" class="app-brand-link">
-                      <span class="app-brand-logo demo">
-                        <img src="static/assets/img/icons/Voidspy Logo.png" style="height: 40px;"/>
-                      </span>
-                    </a>
-        
-                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
-                      <i class="bx bx-chevron-left bx-sm align-middle"></i>
-                    </a>
-                  </div>
-                  <i class="bx bx-search fs-4 lh-0 " style="margin-left: 20px;"></i>
+                  <i class="bx bx-search fs-4 lh-0"></i>
                   
-                  <form method="get" action="search" class="d-flex">
+                  <!-- <form method="get" action="search" class="d-flex">
                     <input
                       type="text"
                       class="form-control border-0 shadow-none"
@@ -102,7 +91,7 @@
                       name="query"
                     />
                     <button class="btn btn-outline-primary" type="submit">Search</button>    
-                  </form>
+                  </form> -->
                 
                 </div>
               </div>
@@ -177,7 +166,7 @@
                   <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                       <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/dashboard">Dashboard</a>
+                        <a class="nav-link active" aria-current="page" href="/user-dashboard">Dashboard</a>
                       </li>
                       <li class="nav-item dropdown">
                         <a
@@ -191,28 +180,11 @@
                           Tasks
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                          <li><a class="dropdown-item" href="/view-tasks">All Task</a></li>
-                          <li><a class="dropdown-item" href="/add-task">New Task</a></li>
+                          <li><a class="dropdown-item" href="/my-tasks">My Task</a></li>
                           
                         </ul>
                       </li>
-                      <li class="nav-item dropdown">
-                        <a
-                          class="nav-link dropdown-toggle"
-                          href="javascript:void(0)"
-                          id="navbarDropdown"
-                          role="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          Users
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/view-users">All Users</a></li>
-                            <li><a class="dropdown-item" href="/adduser">New User</a></li>
-                          
-                        </ul>
-                      </li>
+                      
                       
                     </ul>
                   </div>
@@ -231,7 +203,6 @@
                                     <tr>
                                       <th>Query</th>
                                       <th>Priority</th>
-                                      <th>Assigned to</th>
                                       <th>Status</th>
                                       <th>Created Date</th>
                                       <th>Operation</th>
@@ -242,10 +213,9 @@
                                     <tr>
                                       <td> <strong>{{user[1]}}</strong></td>
                                       <td>{{user[3]}}</td>
-                                      <td>{{user[8]}}</td>
                                       <td>{{user[4]}}</td>
                                       <td>{{user[5]}}</td>
-                                      <td><a class="dropdown-item" href="/show-log?tid={{user[0]}}">Log</a></td>
+                                      <td><a class="dropdown-item" href="/show-task?tid={{user[0]}}">Update</a></td>
                                     </tr>
                                     {% endfor %}
                                   </tbody>

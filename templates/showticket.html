@@ -80,20 +80,20 @@
               
               <div class="navbar-nav align-items-center">
                 <div class="nav-item d-flex align-items-center">
-                  <div class="app-brand demo">
-                    <a href="index.html" class="app-brand-link">
-                      <span class="app-brand-logo demo">
-                        <img src="static/assets/img/icons/Voidspy Logo.png" style="height: 40px;"/>
-                      </span>
-                    </a>
-        
-                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
-                      <i class="bx bx-chevron-left bx-sm align-middle"></i>
-                    </a>
-                  </div>
-                  <i class="bx bx-search fs-4 lh-0 " style="margin-left: 20px;"></i>
+                    <div class="app-brand demo">
+                        <a href="index.html" class="app-brand-link">
+                          <span class="app-brand-logo demo">
+                            <img src="static/assets/img/icons/Voidspy Logo.png" style="height: 40px;"/>
+                          </span>
+                        </a>
+            
+                        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+                          <i class="bx bx-chevron-left bx-sm align-middle"></i>
+                        </a>
+                      </div>
+                      <!-- <i class="bx bx-search fs-4 lh-0 " style="margin-left: 20px;"></i> -->
                   
-                  <form method="get" action="search" class="d-flex">
+                  <!-- <form method="get" action="search" class="d-flex">
                     <input
                       type="text"
                       class="form-control border-0 shadow-none"
@@ -102,7 +102,7 @@
                       name="query"
                     />
                     <button class="btn btn-outline-primary" type="submit">Search</button>    
-                  </form>
+                  </form> -->
                 
                 </div>
               </div>
@@ -176,102 +176,31 @@
                   </button>
                   <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                      <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/dashboard">Dashboard</a>
-                      </li>
-                      <li class="nav-item dropdown">
-                        <a
-                          class="nav-link dropdown-toggle"
-                          href="javascript:void(0)"
-                          id="navbarDropdown"
-                          role="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          Tasks
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                          <li><a class="dropdown-item" href="/view-tasks">All Task</a></li>
-                          <li><a class="dropdown-item" href="/add-task">New Task</a></li>
-                          
-                        </ul>
-                      </li>
-                      <li class="nav-item dropdown">
-                        <a
-                          class="nav-link dropdown-toggle"
-                          href="javascript:void(0)"
-                          id="navbarDropdown"
-                          role="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          Users
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/view-users">All Users</a></li>
-                            <li><a class="dropdown-item" href="/adduser">New User</a></li>
-                          
-                        </ul>
-                      </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/user-dashboard">Dashboard</a>
+                          </li>
+                          <li class="nav-item dropdown">
+                            <a
+                              class="nav-link dropdown-toggle"
+                              href="javascript:void(0)"
+                              id="navbarDropdown"
+                              role="button"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                            >
+                              Tasks
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <li><a class="dropdown-item" href="/my-tasks">My Task</a></li>
+                              
+                            </ul>
+                          </li>
                       
                     </ul>
                   </div>
                 </div>
               </nav>
               <!--/ Layout Demo -->
-              <div class="card mb-4 mt-2">
-                <span class="text-muted fw-light p-2">All Tasks</span>
-                <div class="demo-inline-spacing">
-                    <div class="card">
-                        <div class="card-body">
-            
-                            <div class="table-responsive text-nowrap">
-                                <table class="table">
-                                  <thead>
-                                    <tr>
-                                      <th>Query</th>
-                                      <th>Priority</th>
-                                      <th>Assigned to</th>
-                                      <th>Status</th>
-                                      <th>Created Date</th>
-                                      <th>Operation</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody class="table-border-bottom-0">
-                                    {% for user in tasks %}
-                                    <tr>
-                                      <td> <strong>{{user[1]}}</strong></td>
-                                      <td>{{user[3]}}</td>
-                                      <td>{{user[8]}}</td>
-                                      <td>{{user[4]}}</td>
-                                      <td>{{user[5]}}</td>
-                                      <td><a class="dropdown-item" href="/show-log?tid={{user[0]}}">Log</a></td>
-                                    </tr>
-                                    {% endfor %}
-                                  </tbody>
-                                </table>
-                              </div>
-            
-                          
-                        </div>
-                      </div>
-                </div>
-                    
-            </div>
-        <!-- Footer -->
-            <footer class="content-footer footer bg-footer-theme">
-                <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-                <div class="mb-2 mb-md-0">
-                    ©
-                    <script>
-                        document.write(new Date().getFullYear());
-                    </script>
-                    , by
-                    <a href="https://voidspy.com" target="_blank" class="footer-link fw-bolder">Voidspy</a>
-                </div>
-                
-                </div>
-            </footer>
             </div>
             <!-- / Content -->
 
@@ -279,6 +208,73 @@
 
             <div class="content-backdrop fade"></div>
           </div>
+          <div class="content-wrapper">
+            <!-- Content -->
+
+            <div class="container-xxl flex-grow-1 mt-1">
+                
+                <div class="card mb-4">
+                    <span class="text-muted fw-light p-2">Add Log</span>
+                    <div class="demo-inline-spacing">
+                        <div class="card">
+                            <div class="card-body">
+                
+                              <form class="mb-3" action="/store-log" method="POST">
+                                <input type="hidden" name="tid" value="{{tasks[0][0]}}"/>
+                                <div class="mb-3 w-50">
+                                  <label for="username" class="form-label">Query</label>
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    id="username"
+                                    name="qst"
+                                    value="{{tasks[0][1]}}"
+                                    placeholder="Enter your Query"
+                                    autofocus
+                                    disabled
+                                  />
+                                </div>
+
+                                <div class="mb-3 w-50">
+                                  <label for="email" class="form-label">Add Log detail</label>
+                                  <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Log details" name="res"></textarea>
+                                </div>  
+                                
+                                <div class="mb-3 w-50">
+                                    <label for="ptype" class="form-label">status</label>
+                                    <!-- <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" /> -->
+                                    <select class="form-control" id="ptype" name="status">
+                                        <option value="pending">pending</option>
+                                        <option value="completed">completed</option>
+                                    </select>
+                                  </div> 
+                                
+                                <button class="btn btn-primary d-grid w-50">Add Log</button>
+                              </form>
+                
+                              
+                            </div>
+                          </div>
+                    </div>
+                        
+                </div>
+            <!-- Footer -->
+                <footer class="content-footer footer bg-footer-theme">
+                    <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                    <div class="mb-2 mb-md-0">
+                        ©
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>
+                        , by
+                        <a href="https://voidspy.com" target="_blank" class="footer-link fw-bolder">Voidspy</a>
+                    </div>
+                    
+                    </div>
+                </footer>
+            <!-- / Footer -->
+            </div>
+        </div>
           <!-- Content wrapper -->
         </div>
         <!-- / Layout page -->

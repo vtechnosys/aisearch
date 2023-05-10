@@ -80,7 +80,18 @@
               
               <div class="navbar-nav align-items-center">
                 <div class="nav-item d-flex align-items-center">
-                  <i class="bx bx-search fs-4 lh-0"></i>
+                  <div class="app-brand demo">
+                    <a href="index.html" class="app-brand-link">
+                      <span class="app-brand-logo demo">
+                        <img src="static/assets/img/icons/Voidspy Logo.png" style="height: 40px;"/>
+                      </span>
+                    </a>
+        
+                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+                      <i class="bx bx-chevron-left bx-sm align-middle"></i>
+                    </a>
+                  </div>
+                  <i class="bx bx-search fs-4 lh-0 " style="margin-left: 20px;"></i>
                   <form method="get" action="search" class="d-flex">
                   <input
                     type="text"
@@ -88,6 +99,7 @@
                     placeholder="Search..."
                     aria-label="Search..."
                     name="query"
+                    value="{{query}}"
                   />
                   <button class="btn btn-outline-primary" type="submit">Search</button>    
                 </form>
@@ -117,8 +129,8 @@
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">John Doe</span>
-                            <small class="text-muted">Admin</small>
+                            <span class="fw-semibold d-block">{{uname}}</span>
+                            <small class="text-muted">{{utype}}</small>
                           </div>
                         </div>
                       </a>
@@ -225,9 +237,28 @@
             <div class="container-xxl flex-grow-1 mt-2">
                 
                 <div class="card mb-4">
-                    <span class="text-muted fw-light p-2">Search Result</span>
+                    <span class="text-muted fw-light p-2">Search Result ({{tm}} seconds)</span>
+                    
                     <div class="demo-inline-spacing">
                         <div class="list-group">
+
+                          {% for info in records %}
+                          <a
+                            href="javascript:void(0);"
+                            class="list-group-item list-group-item-action flex-column align-items-start"
+                          >
+                            <div class="d-flex justify-content-between w-100">
+                              <h6>{{info[1]}}</h6>
+                              <small class="text-muted">{{info[11]}}</small>
+                            </div>
+                            <p class="mb-1">
+                              {{info[9]}}
+                            </p>
+                            <small class="text-muted">user : {{info[13]}}</small>
+                          </a>
+                          {% endfor %}
+
+
                             {% for info in search %}
                           <a
                             href="javascript:void(0);"
@@ -240,7 +271,7 @@
                             <p class="mb-1">
                               {{info.content}}
                             </p>
-                            <small class="text-muted">Donec id elit non mi porta.</small>
+                            <small class="text-muted">File : Test.docx</small>
                           </a>
                           {% endfor %}
                         </div>

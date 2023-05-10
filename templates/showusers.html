@@ -80,7 +80,18 @@
               
               <div class="navbar-nav align-items-center">
                 <div class="nav-item d-flex align-items-center">
-                  <i class="bx bx-search fs-4 lh-0"></i>
+                  <div class="app-brand demo">
+                    <a href="index.html" class="app-brand-link">
+                      <span class="app-brand-logo demo">
+                        <img src="static/assets/img/icons/Voidspy Logo.png" style="height: 40px;"/>
+                      </span>
+                    </a>
+        
+                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+                      <i class="bx bx-chevron-left bx-sm align-middle"></i>
+                    </a>
+                  </div>
+                  <i class="bx bx-search fs-4 lh-0 " style="margin-left: 20px;"></i>
                   
                   <form method="get" action="search" class="d-flex">
                     <input
@@ -116,8 +127,8 @@
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">John Doe</span>
-                            <small class="text-muted">Admin</small>
+                            <span class="fw-semibold d-block">{{uname}}</span>
+                            <small class="text-muted">{{utype}}</small>
                           </div>
                         </div>
                       </a>
@@ -230,7 +241,7 @@
                                       <td> <strong>{{user[1]}}</strong></td>
                                       <td>{{user[2]}}</td>
                                       <td>
-                                        {{user[3]}}
+                                        {{user[4]}}
                                       </td>
                                       <td>{{user[5]}}</td>
                                       

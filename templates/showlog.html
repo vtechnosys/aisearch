@@ -80,18 +80,18 @@
               
               <div class="navbar-nav align-items-center">
                 <div class="nav-item d-flex align-items-center">
-                  <div class="app-brand demo">
-                    <a href="index.html" class="app-brand-link">
-                      <span class="app-brand-logo demo">
-                        <img src="static/assets/img/icons/Voidspy Logo.png" style="height: 40px;"/>
-                      </span>
-                    </a>
-        
-                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
-                      <i class="bx bx-chevron-left bx-sm align-middle"></i>
-                    </a>
-                  </div>
-                  <i class="bx bx-search fs-4 lh-0 " style="margin-left: 20px;"></i>
+                    <div class="app-brand demo">
+                        <a href="index.html" class="app-brand-link">
+                          <span class="app-brand-logo demo">
+                            <img src="static/assets/img/icons/Voidspy Logo.png" style="height: 40px;"/>
+                          </span>
+                        </a>
+            
+                        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+                          <i class="bx bx-chevron-left bx-sm align-middle"></i>
+                        </a>
+                      </div>
+                      <i class="bx bx-search fs-4 lh-0 " style="margin-left: 20px;"></i>
                   
                   <form method="get" action="search" class="d-flex">
                     <input
@@ -220,32 +220,29 @@
               </nav>
               <!--/ Layout Demo -->
               <div class="card mb-4 mt-2">
-                <span class="text-muted fw-light p-2">All Tasks</span>
+                
+                
+
                 <div class="demo-inline-spacing">
                     <div class="card">
+                        
                         <div class="card-body">
-            
+                            <span class="text-muted fw-light p-2">{{tasks[0][5]}} <span class="text-success fw-semibold p-2">{{tasks[0][4]}}</span></span>
+                
+                            <h3 class="text- capitalize p-2">{{tasks[0][1]}}</h3>
                             <div class="table-responsive text-nowrap">
                                 <table class="table">
                                   <thead>
                                     <tr>
-                                      <th>Query</th>
-                                      <th>Priority</th>
-                                      <th>Assigned to</th>
-                                      <th>Status</th>
+                                      <th>Log</th>
                                       <th>Created Date</th>
-                                      <th>Operation</th>
                                     </tr>
                                   </thead>
                                   <tbody class="table-border-bottom-0">
-                                    {% for user in tasks %}
+                                    {% for user in records %}
                                     <tr>
-                                      <td> <strong>{{user[1]}}</strong></td>
-                                      <td>{{user[3]}}</td>
-                                      <td>{{user[8]}}</td>
+                                      <td> <strong>{{user[2]}}</strong></td>
                                       <td>{{user[4]}}</td>
-                                      <td>{{user[5]}}</td>
-                                      <td><a class="dropdown-item" href="/show-log?tid={{user[0]}}">Log</a></td>
                                     </tr>
                                     {% endfor %}
                                   </tbody>
