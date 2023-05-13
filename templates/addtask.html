@@ -80,7 +80,18 @@
               
               <div class="navbar-nav align-items-center">
                 <div class="nav-item d-flex align-items-center">
-                  <i class="bx bx-search fs-4 lh-0"></i>
+                  <div class="app-brand demo">
+                    <a href="index.html" class="app-brand-link">
+                      <span class="app-brand-logo demo">
+                        <img src="static/assets/img/icons/Voidspy Logo.png" style="height: 40px;"/>
+                      </span>
+                    </a>
+        
+                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+                      <i class="bx bx-chevron-left bx-sm align-middle"></i>
+                    </a>
+                  </div>
+                  <i class="bx bx-search fs-4 lh-0 " style="margin-left: 20px;"></i>
                   
                   <form method="get" action="search" class="d-flex">
                     <input
@@ -239,13 +250,24 @@
                                   />
                                 </div>
                                 <div class="mb-3 w-50">
-                                  <label for="email" class="form-label">Select User</label>
-                                  <select class="form-control" id="usr" name = "usr">
+                                  <label for="email" class="form-label">Description</label>
+                                  <!-- <select class="form-control" id="usr" name = "usr">
                                     <option>--User--</option>
                                     {% for user in users %}
                                       <option value="{{user[0]}}">{{user[1]}}</option>
                                     {% endfor %}
+                                  </select> -->
+                                  <textarea class="form-control" name="desc" placeholder="Description"></textarea>
+                                </div>
+                                <div class="mb-3 w-50">
+                                  <label for="email" class="form-label">Select User</label>
+                                  <select class="form-control" id="usr" name = "usr">
+                                    <option value="0">--User--</option>
+                                    {% for user in users %}
+                                      <option value="{{user[0]}}">{{user[1]}}</option>
+                                    {% endfor %}
                                   </select>
+                                  
                                 </div>
                                 <div class="mb-3 w-50">
                                   <label for="ptype" class="form-label">Priority</label>

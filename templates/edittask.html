@@ -80,20 +80,20 @@
               
               <div class="navbar-nav align-items-center">
                 <div class="nav-item d-flex align-items-center">
-                    <div class="app-brand demo">
-                        <a href="index.html" class="app-brand-link">
-                          <span class="app-brand-logo demo">
-                            <img src="static/assets/img/icons/Voidspy Logo.png" style="height: 40px;"/>
-                          </span>
-                        </a>
-            
-                        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
-                          <i class="bx bx-chevron-left bx-sm align-middle"></i>
-                        </a>
-                      </div>
-                      <!-- <i class="bx bx-search fs-4 lh-0 " style="margin-left: 20px;"></i> -->
+                  <div class="app-brand demo">
+                    <a href="index.html" class="app-brand-link">
+                      <span class="app-brand-logo demo">
+                        <img src="static/assets/img/icons/Voidspy Logo.png" style="height: 40px;"/>
+                      </span>
+                    </a>
+        
+                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+                      <i class="bx bx-chevron-left bx-sm align-middle"></i>
+                    </a>
+                  </div>
+                  <i class="bx bx-search fs-4 lh-0 " style="margin-left: 20px;"></i>
                   
-                  <!-- <form method="get" action="search" class="d-flex">
+                  <form method="get" action="search" class="d-flex">
                     <input
                       type="text"
                       class="form-control border-0 shadow-none"
@@ -102,7 +102,7 @@
                       name="query"
                     />
                     <button class="btn btn-outline-primary" type="submit">Search</button>    
-                  </form> -->
+                  </form>
                 
                 </div>
               </div>
@@ -177,7 +177,7 @@
                   <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                       <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/user-dashboard">Dashboard</a>
+                        <a class="nav-link active" aria-current="page" href="/dashboard">Dashboard</a>
                       </li>
                       <li class="nav-item dropdown">
                         <a
@@ -191,172 +191,153 @@
                           Tasks
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                          <li><a class="dropdown-item" href="/my-tasks">My Task</a></li>
+                            <li><a class="dropdown-item" href="/view-tasks">All Task</a></li>
+                            <li><a class="dropdown-item" href="/add-task">New Task</a></li>
                           
                         </ul>
                       </li>
-                      
+                      <li class="nav-item dropdown">
+                        <a
+                          class="nav-link dropdown-toggle"
+                          href="javascript:void(0)"
+                          id="navbarDropdown"
+                          role="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          Users
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <li><a class="dropdown-item" href="/view-users">All Users</a></li>
+                          <li><a class="dropdown-item" href="/adduser">New User</a></li>
+                          
+                        </ul>
+                      </li>
                       
                     </ul>
                   </div>
                 </div>
               </nav>
-              <div class="row mt-3">
-                <div class="col-lg-6 col-md-12 col-6 mb-4">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="card-title d-flex align-items-start justify-content-between">
-                        <div class="avatar flex-shrink-0">
-                          <img
-                            src="static/assets/img/icons/unicons/chart-success.png"
-                            alt="chart success"
-                            class="rounded"
-                          />
-                        </div>
-                        <div class="dropdown">
-                          <button
-                            class="btn p-0"
-                            type="button"
-                            id="cardOpt3"
-                            data-bs-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                          >
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                            <a class="dropdown-item" href="/view-tasks">View More</a>
-                          </div>
-                        </div>
-                      </div>
-                      <a href="/view-tasks"><span class="fw-semibold d-block mb-1">Total Task</span></a>
-                      <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> {{tcount}}</small>
-                    </div>
-                  </div>
-                
-                </div>
-                <div class="col-lg-6 col-md-12 col-6 mb-4">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="card-title d-flex align-items-start justify-content-between">
-                        <div class="avatar flex-shrink-0">
-                          <img
-                            src="static/assets/img/icons/unicons/chart-success.png"
-                            alt="chart success"
-                            class="rounded"
-                          />
-                        </div>
-                        <div class="dropdown">
-                          <button
-                            class="btn p-0"
-                            type="button"
-                            id="cardOpt3"
-                            data-bs-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                          >
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                            <a class="dropdown-item" href="/tasks?status=pending">View More</a>
-                          </div>
-                        </div>
-                      </div>
-                      <a href="/tasks?status=pending"><span class="fw-semibold d-block mb-1">Pending Task</span></a>
-                      <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> {{pcount}}</small>
-                    </div>
-                  </div>
-                </div>
-                <!-- <div class="col-lg-6 col-md-12 col-6 mb-4">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="card-title d-flex align-items-start justify-content-between">
-                        <div class="avatar flex-shrink-0">
-                          <img
-                            src="static/assets/img/icons/unicons/wallet-info.png"
-                            alt="Credit Card"
-                            class="rounded"
-                          />
-                        </div>
-                        <div class="dropdown">
-                          <button
-                            class="btn p-0"
-                            type="button"
-                            id="cardOpt6"
-                            data-bs-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                          >
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
-                            <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                          </div>
-                        </div>
-                      </div>
-                      <span class="fw-semibold d-block mb-1">Incomplete Task</span>
-                      <small class="text-danger fw-semibold"><i class="bx bx-up-arrow-alt"></i> 28</small>
-                    </div>
-                  </div>
-                </div> -->
-              </div>
-              <div class="row ">
-                
-                <div class="col-lg-6 col-md-12 col-6 mb-4">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="card-title d-flex align-items-start justify-content-between">
-                        <div class="avatar flex-shrink-0">
-                          <img
-                            src="static/assets/img/icons/unicons/wallet-info.png"
-                            alt="Credit Card"
-                            class="rounded"
-                          />
-                        </div>
-                        <div class="dropdown">
-                          <button
-                            class="btn p-0"
-                            type="button"
-                            id="cardOpt6"
-                            data-bs-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                          >
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
-                            <a class="dropdown-item" href="/tasks?status=completed">View More</a>
-                          </div>
-                        </div>
-                      </div>
-                      <a href="/tasks?status=completed"><span class="fw-semibold d-block mb-1">Completed Tasks</span></a>
-                      <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> {{ccount}}</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
               <!--/ Layout Demo -->
             </div>
             <!-- / Content -->
 
-            <!-- Footer -->
-            <footer class="content-footer footer bg-footer-theme">
-              <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-                <div class="mb-2 mb-md-0">
-                  ©
-                  <script>
-                    document.write(new Date().getFullYear());
-                  </script>
-                  , by
-                  <a href="https://voidspy.com" target="_blank" class="footer-link fw-bolder">Voidspy</a>
-                </div>
-                
-              </div>
-            </footer>
-            <!-- / Footer -->
+            
 
             <div class="content-backdrop fade"></div>
           </div>
+          <div class="content-wrapper">
+            <!-- Content -->
+
+            <div class="container-xxl flex-grow-1 mt-2">
+                
+                <div class="card mb-4">
+                    <span class="text-muted fw-light p-2">Update Tasks</span>
+                    <div class="demo-inline-spacing">
+                        <div class="card">
+                            <div class="card-body">
+                
+                              <form class="mb-3" action="/udpatetask" method="POST">
+                                <input type="hidden" name="tid" value="{{task[0]}}"/>
+                                <div class="mb-3 w-50">
+                                  <label for="username" class="form-label">Query</label>
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    id="username"
+                                    name="qst"
+                                    value="{{task[1]}}"
+                                    placeholder="Enter your Query"
+                                    autofocus
+                                  />
+                                </div>
+                                <div class="mb-3 w-50">
+                                  <label for="email" class="form-label">Select Description</label>
+                                  <!-- <select class="form-control" id="usr" name = "usr">
+                                    <option>--User--</option>
+                                    {% for user in users %}
+                                      <option value="{{user[0]}}">{{user[1]}}</option>
+                                    {% endfor %}
+                                  </select> -->
+                                  <textarea class="form-control" name="desc" placeholder="Description">{{task[2]}}</textarea>
+                                </div>
+                                <div class="mb-3 w-50">
+                                  <label for="email" class="form-label">Select User</label>
+                                  <select class="form-control" id="usr" name = "usr">
+                                    <option value="0">--User--</option>
+                                    {% for user in users %}
+                                        {% if(task[3] == user[0]) %}
+                                            <option value="{{user[0]}}" selected>{{user[1]}}</option>
+                                        {% else %}
+                                        <option value="{{user[0]}}">{{user[1]}}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                  </select>
+                                  
+                                </div>
+                                <div class="mb-3 w-50">
+                                  <label for="ptype" class="form-label">Priority</label>
+                                  <!-- <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" /> -->
+                                  <select class="form-control" id="ptype" name="ptype">
+                                    {% if(task[4] == 'high') %}
+                                    <option value="high" selected>High</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="low">Low</option>
+                                    {% elif(task[4] == 'medium')%}
+                                    <option value="high">High</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="low">Low</option>
+                                    {% else %}
+                                    <option value="high">High</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="low" selected>Low</option>
+                                    {%endif %}
+                                  </select>
+                                </div>   
+                                <div class="mb-3 w-50">
+                                    <label for="ptype" class="form-label">status</label>
+                                    <!-- <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" /> -->
+                                    <select class="form-control" id="ptype" name="status">
+                                        {% if(task[5] == 'pending') %}
+                                        <option value="pending" selected>pending</option>
+                                        <option value="completed">completed</option>
+                                        {% elif(task[5]=='completed') %}
+                                        <option value="pending">pending</option>
+                                        <option value="completed" selected>completed</option>
+                                        {% else %}
+                                        <option>--select Status--</option>
+                                        <option value="pending">pending</option>
+                                        <option value="completed">completed</option>
+                                        {% endif %}
+                                    </select>
+                                  </div>        
+                                
+                                <button class="btn btn-primary d-grid w-50">update Task</button>
+                              </form>
+                
+                              
+                            </div>
+                          </div>
+                    </div>
+                        
+                </div>
+            <!-- Footer -->
+                <footer class="content-footer footer bg-footer-theme">
+                    <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                    <div class="mb-2 mb-md-0">
+                        ©
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>
+                        , by
+                        <a href="https://voidspy.com" target="_blank" class="footer-link fw-bolder">Voidspy</a>
+                    </div>
+                    
+                    </div>
+                </footer>
+            <!-- / Footer -->
+            </div>
+        </div>
           <!-- Content wrapper -->
         </div>
         <!-- / Layout page -->

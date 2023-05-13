@@ -61,6 +61,7 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="static/assets/js/config.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
   </head>
 
   <body>
@@ -80,7 +81,18 @@
               
               <div class="navbar-nav align-items-center">
                 <div class="nav-item d-flex align-items-center">
-                  <i class="bx bx-search fs-4 lh-0"></i>
+                    <div class="app-brand demo">
+                        <a href="index.html" class="app-brand-link">
+                          <span class="app-brand-logo demo">
+                            <img src="static/assets/img/icons/Voidspy Logo.png" style="height: 40px;"/>
+                          </span>
+                        </a>
+            
+                        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+                          <i class="bx bx-chevron-left bx-sm align-middle"></i>
+                        </a>
+                      </div>
+                      <!-- <i class="bx bx-search fs-4 lh-0 " style="margin-left: 20px;"></i> -->
                   
                   <!-- <form method="get" action="search" class="d-flex">
                     <input
@@ -198,28 +210,34 @@
                         <div class="card-body">
             
                             <div class="table-responsive text-nowrap">
-                                <table class="table">
-                                  <thead>
-                                    <tr>
-                                      <th>Query</th>
-                                      <th>Priority</th>
-                                      <th>Status</th>
-                                      <th>Created Date</th>
-                                      <th>Operation</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody class="table-border-bottom-0">
-                                    {% for user in tasks %}
-                                    <tr>
-                                      <td> <strong>{{user[1]}}</strong></td>
-                                      <td>{{user[3]}}</td>
-                                      <td>{{user[4]}}</td>
-                                      <td>{{user[5]}}</td>
-                                      <td><a class="dropdown-item" href="/show-task?tid={{user[0]}}">Update</a></td>
-                                    </tr>
-                                    {% endfor %}
-                                  </tbody>
-                                </table>
+                              <table class="table" id="main-table">
+                                <thead>
+                                  <tr>
+                                    <th>Query</th>
+                                    <th>Priority</th>
+                                    <th>Assigned to</th>
+                                    <th>Status</th>
+                                    <th>Created Date</th>
+                                    {% if(utype=='admin')%}
+                                    <th>Operation</th>
+                                    {%endif%}
+                                  </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                  {% for user in tasks %}
+                                  <tr>
+                                    <td> <a href="/show-log?tid={{user[0]}}"><strong>{{user[1]}}</strong></a></td>
+                                    <td>{{user[4]}}</td>
+                                    <td>{{user[9]}}</td>
+                                    <td>{{user[5]}}</td>
+                                    <td>{{user[6]}}</td>
+                                    {% if(utype=='admin')%}
+                                    <td><a class="dropdown-item" href="/edit-task?tid={{user[0]}}">Update</a></td>
+                                    {%endif%}
+                                  </tr>
+                                  {% endfor %}
+                                </tbody>
+                              </table>
                               </div>
             
                           
@@ -234,7 +252,7 @@
                 <div class="mb-2 mb-md-0">
                     ©
                     <script>
-                        document.write(new Date().getFullYear());
+                      document.write(new Date().getFullYear());
                     </script>
                     , by
                     <a href="https://voidspy.com" target="_blank" class="footer-link fw-bolder">Voidspy</a>
@@ -277,5 +295,11 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $('#main-table').DataTable();
+      })
+    </script>
   </body>
 </html>

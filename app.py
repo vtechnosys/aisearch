@@ -97,7 +97,7 @@ def cosine_sim(a, b):
 #-------- ROUTES GO HERE -----------#
 @app.route('/')
 def hello_world():
-    return 'Hello, World!'
+    return flask.redirect('/login')
 
 @app.route('/login')
 def login():
@@ -126,7 +126,7 @@ def signin():
 @app.route('/user-dashboard')
 def user_dashboard():
     uid = session['uid']
-    # print(uid)
+    print(uid)
     cursor = db.cursor()
     cursor.execute("select * from tbl_tickets where assign_user="+str(uid))
     trecords = cursor.rowcount
@@ -160,14 +160,39 @@ def task():
 
 @app.route('/storetask',methods=['POST'])
 def storetask():
+    uid = session['uid']
     qst = str(flask.request.form.get('qst'))
-    ans = str(flask.request.form.get('usr'))
+    ans = str(flask.request.form.get('desc'))
+    u = str(flask.request.form.get('usr'))
     ptype = str(flask.request.form.get('ptype'))
     cursor = db.cursor()
-    cursor.execute("insert into tbl_tickets(task,assign_user,t_priority,t_status,created_by) values('"+qst+"','"+ans+"','"+ptype+"','pending','1')")
+    cursor.execute("insert into tbl_tickets(task,task_desc,assign_user,t_priority,t_status,created_by) values('"+qst+"','"+ans+"','"+u+"','"+ptype+"','pending','"+str(uid)+"')")
     db.commit()
     return flask.redirect('/dashboard')
-
+@app.route('/udpatetask',methods=['POST'])
+def updatetask():
+    uid = session['uid']
+    tid = str(flask.request.form.get('tid'))
+    qst = str(flask.request.form.get('qst'))
+    ans = str(flask.request.form.get('desc'))
+    u = str(flask.request.form.get('usr'))
+    ptype = str(flask.request.form.get('ptype'))
+    st = str(flask.request.form.get('status'))
+    cursor = db.cursor()
+    # print("update tbl_tickets set task='"+qst+"',task_desc='"+ans+"',assign_user="+u+",t_priority='"+ptype+"',t_status='"+st+"' where id="+str(tid))
+    cursor.execute("update tbl_tickets set task='"+qst+"',task_desc='"+ans+"',assign_user="+u+",t_priority='"+ptype+"',t_status='"+st+"' where id="+str(tid))
+    db.commit()
+    return flask.redirect('/dashboard')
+@app.route('/edit-task',methods=['GET'])
+def editTask():
+    tid = flask.request.args.get('tid')
+    cursor = db.cursor()
+    cursor.execute("select * from tbl_tickets where id = "+str(tid))
+    tasks = cursor.fetchall()
+    cursor = db.cursor()
+    cursor.execute("select * from tbl_user where utype<>'admin'")
+    records = cursor.fetchall()
+    return flask.render_template('edittask.html',user=records,task=tasks[0],users = records,uname=session['uname'],utype=session['utype'])
 @app.route('/my-tasks')
 def showmytask():
     uid = session['uid']
@@ -186,13 +211,14 @@ def showlog():
 
 @app.route('/show-log',methods=['GET'])
 def showlogs():
+    uid = session['uid']
     tid = flask.request.args.get('tid')
     cursor = db.cursor()
-    cursor.execute("select * from tbl_task_log where task_id = "+str(tid))
+    cursor.execute("select * from tbl_task_log as t join tbl_user as u on t.assign_user_id=u.id where task_id = "+str(tid)+" order by t.id")
     records = cursor.fetchall()
     cursor.execute("select * from tbl_tickets where id = "+str(tid))
     tasks = cursor.fetchall()
-    return flask.render_template('showlog.html',tasks = tasks,records=records,uname=session['uname'],utype=session['utype'])
+    return flask.render_template('showlog.html',tasks = tasks,records=records,uid=uid,uname=session['uname'],utype=session['utype'])
 
 @app.route('/store-log',methods=['POST'])
 def storelog():
@@ -203,16 +229,47 @@ def storelog():
     cursor = db.cursor()
     cursor.execute("insert into tbl_task_log(task_id,response,assign_user_id) values("+str(tid)+",'"+str(res)+"',"+str(uid)+")")
     
-    cursor.execute('update tbl_tickets set t_status="'+status+'" where id='+str(tid))
+    # cursor.execute('update tbl_tickets set t_status="'+status+'" where id='+str(tid))
     db.commit()
+    utype = session['utype']
+    if(utype == 'admin'):
+        return flask.redirect('/dashboard')
     return flask.redirect('/user-dashboard')
 
 @app.route('/view-tasks')
 def showtask():
     cursor = db.cursor()
-    cursor.execute("select * from tbl_tickets as t join tbl_user as u on t.assign_user = u.id")
-    records = cursor.fetchall()
-    return flask.render_template('showtask.html',tasks = records,uname=session['uname'],utype=session['utype'])
+    utype = session['utype']
+    if (utype == 'admin'):
+        cursor.execute("select * from tbl_tickets as t left join tbl_user as u on t.assign_user = u.id")
+        records = cursor.fetchall()
+        return flask.render_template('showtask.html',tasks = records,uname=session['uname'],utype=session['utype'])
+    else:
+        uid = session['uid']
+        cursor.execute("select * from tbl_tickets as t left join tbl_user as u on t.assign_user = u.id where t.assign_user ="+str(uid))
+        records = cursor.fetchall()
+        return flask.render_template('mytask.html',tasks = records,uname=session['uname'],utype=session['utype'])
+    
+    
+@app.route('/tasks',methods=['GET'])
+def spTask():
+    query = flask.request.args.get('status')
+    cursor = db.cursor()
+    utype=session['utype']
+    if (utype == 'admin'):
+        cursor.execute("select * from tbl_tickets as t left join tbl_user as u on t.assign_user = u.id where t.t_status='"+query+"'")
+        records = cursor.fetchall()
+        return flask.render_template('showtask.html',tasks = records,uname=session['uname'],utype=session['utype'])
+    else:
+        uid = session['uid']
+        cursor.execute("select * from tbl_tickets as t left join tbl_user as u on t.assign_user = u.id where t.t_status='"+query+"' and t.assign_user ="+str(uid))
+        records = cursor.fetchall()
+        return flask.render_template('mytask.html',tasks = records,uname=session['uname'],utype=session['utype'])
+    
+    
+    
+    
+
 @app.route('/register', methods=['POST'])
 def adduser():
     uname = str(flask.request.form.get('username'))
@@ -238,8 +295,10 @@ def DrugFind():
     query = flask.request.args.get('query')
 
     cursor = db.cursor()
-    cursor.execute("SELECT * FROM tbl_tickets as t JOIN tbl_task_log as l on t.id = l.task_id JOIN tbl_user as u ON t.assign_user = u.id WHERE MATCH (task) AGAINST ('"+query+"' IN NATURAL LANGUAGE MODE)")
+    cursor.execute("SELECT * FROM tbl_tickets as t JOIN tbl_task_log as l on t.id = l.task_id JOIN tbl_user as u ON l.assign_user_id = u.id WHERE MATCH (task,task_desc) AGAINST ('"+query+"' IN NATURAL LANGUAGE MODE)")
+
     records = cursor.fetchall()
+    # print("SELECT * FROM tbl_tickets as t JOIN tbl_task_log as l on t.id = l.task_id JOIN tbl_user as u ON t.assign_user = u.id WHERE MATCH (task,task_desc) AGAINST ('"+query+"' IN NATURAL LANGUAGE MODE)")
     preprocessed_query = preprocessed_query = re.sub(
         "\W+", " ", query.lower()).strip()
     tokens = word_tokenize(str(preprocessed_query))

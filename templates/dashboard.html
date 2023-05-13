@@ -246,10 +246,11 @@
                           </div>
                         </div>
                       </div>
-                      <span class="fw-semibold d-block mb-1">Total Task</span>
+                      <a href="/view-tasks"><span class="fw-semibold d-block mb-1">Total Task</span></a>
                       <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> {{tcount}}</small>
                     </div>
                   </div>
+                
                 </div>
                 <div class="col-lg-6 col-md-12 col-6 mb-4">
                   <div class="card">
@@ -274,11 +275,11 @@
                             <i class="bx bx-dots-vertical-rounded"></i>
                           </button>
                           <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                            <a class="dropdown-item" href="/view-tasks">View More</a>
+                            <a class="dropdown-item" href="/tasks?status=pending">View More</a>
                           </div>
                         </div>
                       </div>
-                      <span class="fw-semibold d-block mb-1">Pending Task</span>
+                      <a href="/tasks?status=pending"><span class="fw-semibold d-block mb-1">Pending Task</span></a>
                       <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> {{pcount}}</small>
                     </div>
                   </div>
@@ -341,11 +342,11 @@
                             <i class="bx bx-dots-vertical-rounded"></i>
                           </button>
                           <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
-                            <a class="dropdown-item" href="view-tasks">View More</a>
+                            <a class="dropdown-item" href="/tasks?status=completed">View More</a>
                           </div>
                         </div>
                       </div>
-                      <span class="fw-semibold d-block mb-1">Completed Tasks</span>
+                      <a href="/tasks?status=completed"><span class="fw-semibold d-block mb-1">Completed Tasks</span></a>
                       <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> {{ccount}}</small>
                     </div>
                   </div>

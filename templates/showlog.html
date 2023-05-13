@@ -100,6 +100,7 @@
                       placeholder="Search..."
                       aria-label="Search..."
                       name="query"
+                      size="100"
                     />
                     <button class="btn btn-outline-primary" type="submit">Search</button>    
                   </form>
@@ -176,6 +177,7 @@
                   </button>
                   <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                      {% if(utype=='admin')%}
                       <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/dashboard">Dashboard</a>
                       </li>
@@ -213,6 +215,27 @@
                           
                         </ul>
                       </li>
+                      {%else%}
+                      <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/user-dashboard">Dashboard</a>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a
+                          class="nav-link dropdown-toggle"
+                          href="javascript:void(0)"
+                          id="navbarDropdown"
+                          role="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          Tasks
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <li><a class="dropdown-item" href="/my-tasks">My Task</a></li>
+                          
+                        </ul>
+                      </li>
+                      {%endif%}
                       
                     </ul>
                   </div>
@@ -227,27 +250,39 @@
                     <div class="card">
                         
                         <div class="card-body">
-                            <span class="text-muted fw-light p-2">{{tasks[0][5]}} <span class="text-success fw-semibold p-2">{{tasks[0][4]}}</span></span>
+                            <span class="text-muted fw-light p-2 text-capitalize">{{tasks[0][5]}} <span class="text-success fw-semibold p-2">{{tasks[0][4]}}</span></span>
                 
                             <h3 class="text- capitalize p-2">{{tasks[0][1]}}</h3>
+                            <form class="mb-3" action="/store-log" method="POST">
+                              <input type="hidden" name="tid" value="{{tasks[0][0]}}"/>
+                              <div class="mb-3 w-50">
+                                <label for="email" class="form-label">Reply</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="details" name="res"></textarea>
+                              </div> 
+                              <button class="btn btn-primary">Add reply</button>
+                            </form>
                             <div class="table-responsive text-nowrap">
+                              <p>Replies</p>
                                 <table class="table">
-                                  <thead>
-                                    <tr>
-                                      <th>Log</th>
-                                      <th>Created Date</th>
-                                    </tr>
-                                  </thead>
+                                  
                                   <tbody class="table-border-bottom-0">
                                     {% for user in records %}
                                     <tr>
-                                      <td> <strong>{{user[2]}}</strong></td>
-                                      <td>{{user[4]}}</td>
-                                    </tr>
-                                    {% endfor %}
+                                      {% if(user[3] == uid ) %}
+                                      <td></td>
+                                      <td><strong>{{user[2]}}-</strong> {{user[6]}}<br/> {{user[4]}}</td>
+                                    
+                                    {% else %}                                     
+                                      
+                                      <td><strong>{{user[2]}}-</strong> {{user[6]}}<br/> {{user[4]}}</td>
+                                      <td> </td>
+                                    {% endif %}
+                                  </tr>
+                                  {% endfor %}
                                   </tbody>
                                 </table>
                               </div>
+                              
             
                           
                         </div>
@@ -261,7 +296,7 @@
                 <div class="mb-2 mb-md-0">
                     ©
                     <script>
-                        document.write(new Date().getFullYear());
+                      document.write(new Date().getFullYear());
                     </script>
                     , by
                     <a href="https://voidspy.com" target="_blank" class="footer-link fw-bolder">Voidspy</a>

@@ -61,6 +61,7 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="static/assets/js/config.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
   </head>
 
   <body>
@@ -226,7 +227,7 @@
                         <div class="card-body">
             
                             <div class="table-responsive text-nowrap">
-                                <table class="table">
+                                <table class="table" id="main-table">
                                   <thead>
                                     <tr>
                                       <th>Query</th>
@@ -234,18 +235,22 @@
                                       <th>Assigned to</th>
                                       <th>Status</th>
                                       <th>Created Date</th>
+                                      {% if(utype=='admin')%}
                                       <th>Operation</th>
+                                      {%endif%}
                                     </tr>
                                   </thead>
                                   <tbody class="table-border-bottom-0">
                                     {% for user in tasks %}
                                     <tr>
-                                      <td> <strong>{{user[1]}}</strong></td>
-                                      <td>{{user[3]}}</td>
-                                      <td>{{user[8]}}</td>
+                                      <td> <a href="/show-log?tid={{user[0]}}"><strong>{{user[1]}}</strong></a></td>
                                       <td>{{user[4]}}</td>
+                                      <td>{{user[9]}}</td>
                                       <td>{{user[5]}}</td>
-                                      <td><a class="dropdown-item" href="/show-log?tid={{user[0]}}">Log</a></td>
+                                      <td>{{user[6]}}</td>
+                                      {% if(utype=='admin')%}
+                                      <td><a class="dropdown-item" href="/edit-task?tid={{user[0]}}">Update</a></td>
+                                      {%endif%}
                                     </tr>
                                     {% endfor %}
                                   </tbody>
@@ -264,7 +269,7 @@
                 <div class="mb-2 mb-md-0">
                     ©
                     <script>
-                        document.write(new Date().getFullYear());
+                      document.write(new Date().getFullYear());
                     </script>
                     , by
                     <a href="https://voidspy.com" target="_blank" class="footer-link fw-bolder">Voidspy</a>
@@ -307,5 +312,12 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $('#main-table').DataTable();
+      })
+    </script>
+    
   </body>
 </html>
